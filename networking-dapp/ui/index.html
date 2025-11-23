@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Effortless Device Networking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; background: #0b1020; color: #f5f5f5; }
+      .card { background: #111827; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+      h1, h2 { margin-top: 0; }
+      label { display: block; margin-top: 0.5rem; font-size: 0.9rem; color: #9ca3af; }
+      input { width: 100%; padding: 0.5rem; border-radius: 8px; border: 1px solid #374151; background: #020617; color: #f9fafb; margin-top: 0.25rem; }
+      button { margin-top: 0.75rem; padding: 0.5rem 1rem; border-radius: 999px; border: none; background: linear-gradient(135deg,#4f46e5,#06b6d4); color: white; cursor: pointer; font-weight: 600; }
+      button:hover { opacity: 0.9; }
+      .log { white-space: pre-wrap; font-size: 0.85rem; background: #020617; padding: 1rem; border-radius: 8px; margin-top: 1rem; max-height: 200px; overflow: auto; border: 1px solid #1f2937; }
+    </style>
+  </head>
+  <body>
+    <h1>Effortless Device Networking</h1>
+    <p>Register devices, open networking sessions, and let a liquidity pool guarantee reliable connections.</p>
+
+    <div class="card">
+      <h2>1. Register device</h2>
+      <label>Metadata (e.g. "Living room TV")</label>
+      <input id="device-metadata" />
+      <button id="register-device">Register</button>
+    </div>
+
+    <div class="card">
+      <h2>2. Create session</h2>
+      <label>Host device id</label>
+      <input id="host-device-id" />
+      <label>Liquidity required (µSTX)</label>
+      <input id="liquidity-required" />
+      <button id="create-session">Create session</button>
+    </div>
+
+    <div class="card">
+      <h2>3. Join & deposit</h2>
+      <label>Session id</label>
+      <input id="session-id" />
+      <label>Guest device id</label>
+      <input id="guest-device-id" />
+      <label>Deposit amount (µSTX)</label>
+      <input id="deposit-amount" />
+      <button id="join-deposit">Join & deposit</button>
+    </div>
+
+    <div class="card">
+      <h2>4. Close session</h2>
+      <label>Session id</label>
+      <input id="close-session-id" />
+      <label>Recipient principal</label>
+      <input id="close-recipient" />
+      <button id="close-session">Close & settle</button>
+    </div>
+
+    <div class="card">
+      <h2>Activity log</h2>
+      <div id="log" class="log"></div>
+    </div>
+
+    <script>
+      const logEl = document.getElementById('log');
+      function log(msg) { logEl.textContent += `\n${new Date().toISOString()} - ${msg}`; }
+
+      // NOTE: This is an example UI shell. To make it live, wire these handlers
+      // to @stacks/transactions and your chosen wallet (e.g. Hiro Wallet).
+      document.getElementById('register-device').onclick = () => {
+        const meta = (document.getElementById('device-metadata')).value;
+        log(`Would call networking.register-device("${meta}")`);
+      };
+      document.getElementById('create-session').onclick = () => {
+        const id = (document.getElementById('host-device-id')).value;
+        const amount = (document.getElementById('liquidity-required')).value;
+        log(`Would call networking.create-session(device-id=${id}, required=${amount})`);
+      };
+      document.getElementById('join-deposit').onclick = () => {
+        const sid = (document.getElementById('session-id')).value;
+        const gid = (document.getElementById('guest-device-id')).value;
+        const amt = (document.getElementById('deposit-amount')).value;
+        log(`Would call networking.join-and-deposit(sid=${sid}, guest-device-id=${gid}, amount=${amt})`);
+      };
+      document.getElementById('close-session').onclick = () => {
+        const sid = (document.getElementById('close-session-id')).value;
+        const rec = (document.getElementById('close-recipient')).value;
+        log(`Would call networking.close-session(sid=${sid}, recipient=${rec})`);
+      };
+    </script>
+  </body>
+</html>
